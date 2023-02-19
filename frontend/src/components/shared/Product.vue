@@ -4,13 +4,17 @@
   >
     <div class="pic overflow-hidden">
       <!-- <font-awesome-icon icon="heart" class="text-white " /> -->
-      <img src="@/assets/logo.png" alt="product" class="w-full h-full" />
+      <router-link to="/products/1"
+        ><img src="@/assets/logo.png" alt="product" class="w-full h-full"
+      /></router-link>
     </div>
-    <div class="details text-base flex flex-col overflow-hidden py-2">
+    <div class="details text-base flex flex-col overflow-hidden py-1">
       <div class="flex flex-row justify-between">
-        <div class="font-bold text-gray-900 w-2/3 overflow-hidden">
-          Hand Watch
-        </div>
+        <router-link to="/products/1" class="w-2/3"
+          ><div class="font-bold text-gray-900 overflow-hidden hover:underline">
+            Hand Watch
+          </div></router-link
+        >
         <div class="font-bold text-gray-800 w-1/3 text-end">3000000</div>
       </div>
       <p class="text-gray-400 text-xs">Sport Apple Hand Watch</p>
@@ -33,11 +37,13 @@ import GlobalButton from "@/components/shared/GlobalButton.vue";
 </script>
 
 <style scoped>
-/* .product {
-  min-width: 180px;
-  max-width: 220px; 
+.product {
+  min-width: 11rem;
+  max-width: 220px;
 }
-  */
+.product:hover {
+  transform: translate(2);
+}
 
 .pic {
   height: 62%;

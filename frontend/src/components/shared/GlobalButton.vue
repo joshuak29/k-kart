@@ -13,6 +13,8 @@
     Add to Cart
   </button>
 </template>
+<script setup>
+</script>
 <style>
 button {
   transition: all 0.5s;

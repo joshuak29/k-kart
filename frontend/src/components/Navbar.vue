@@ -2,7 +2,7 @@
   <header class="h-16">
     <nav class="fixed top-0 left-0 w-full h-16 px-10 bg-white">
       <ul class="h-full w-full flex flex-row items-center text-center">
-        <li class="logo">Kigali Kart</li>
+        <li class="logo"><router-link to="/">Kigali Kart</router-link></li>
         <li
           class="text-end cursor-pointer"
           @click="categoriesDropDown = !categoriesDropDown"
@@ -13,6 +13,9 @@
               class="text-xs"
               id="drop-icon"
           /></span>
+        </li>
+        <li>
+          <router-link to="/products">Shop Now</router-link>
         </li>
         <li class="search justify-end flex flex-row">
           <input
