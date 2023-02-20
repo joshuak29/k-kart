@@ -10,6 +10,7 @@ import {
   faUser,
   faHeart,
   faStar,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import App from "./App.vue";
@@ -25,6 +26,7 @@ library.add(faCartShopping);
 library.add(faUser);
 library.add(faHeart);
 library.add(faStar);
+library.add(faXmark);
 
 createApp(App)
   .use(router)

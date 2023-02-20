@@ -24,14 +24,19 @@
             placeholder="search"
           />
           <span class="bg-gray-100 h-6 w-8 rounded-r-3xl"
-            ><font-awesome-icon icon="search" class="text-gray-500 text-sm"
+            ><font-awesome-icon
+              icon="search"
+              class="text-gray-500 text-sm hover:text-black"
           /></span>
         </li>
         <li class="flex flex-row justify-end gap-10">
           <span class="flex flex-row gap-3 cursor-pointer"
             ><font-awesome-icon icon="user" /> Account</span
           >
-          <span class="flex flex-row gap-3 cursor-pointer"
+          <span
+            class="cart flex flex-row gap-3 cursor-pointer"
+            cart-length="2"
+            @click="openCart"
             ><font-awesome-icon icon="cart-shopping" id="cart-icon" />
             Cart</span
           >
@@ -42,12 +47,18 @@
 </template>
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const categoriesDropDown = ref(false);
 
 const categoriesIsDroppedDown = computed(() =>
   categoriesDropDown.value === true ? "angle-up" : "angle-down"
 );
+
+const router = useRouter();
+const openCart = () => {
+  router.push("/cart");
+};
 </script>
 <style scoped>
 * {
@@ -69,5 +80,28 @@ li.logo {
 }
 #drop-icon {
   transform: translateY(2px);
+}
+.cart {
+  position: relative;
+}
+.cart::after {
+  @apply flex flex-row justify-center items-center h-4 w-4 rounded-3xl text-white bg-teal-400 absolute left-full text-xs font-bold;
+}
+.cart::after {
+  content: attr(cart-length);
+  /*display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  color: white;
+  background: teal;
+  position: absolute;
+  left: 100%;
+  top: -10%;
+  font-size: 0.7rem;
+  font-weight: bold;*/
 }
 </style>

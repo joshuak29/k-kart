@@ -5,27 +5,27 @@
     <div class="pic overflow-hidden">
       <!-- <font-awesome-icon icon="heart" class="text-white " /> -->
       <router-link to="/products/1"
-        ><img src="@/assets/logo.png" alt="product" class="w-full h-full"
+        ><img :src="product.img" alt="product" class="w-full h-full"
       /></router-link>
     </div>
-    <div class="details text-base flex flex-col overflow-hidden py-1">
+    <div
+      class="details text-base flex flex-col overflow-hidden py-1 justify-end"
+    >
       <div class="flex flex-row justify-between">
         <router-link to="/products/1" class="w-2/3"
           ><div class="font-bold text-gray-900 overflow-hidden hover:underline">
-            Hand Watch
+            {{ product.name }}
           </div></router-link
         >
-        <div class="font-bold text-gray-800 w-1/3 text-end">3000000</div>
+        <div class="font-bold text-gray-800 w-1/3 text-end">
+          {{ product.price }}
+        </div>
       </div>
-      <p class="text-gray-400 text-xs">Sport Apple Hand Watch</p>
+      <div class="text-gray-400 text-xs whitespace-nowrap">
+        {{ product.description }}
+      </div>
       <p class="mb-2">
-        <font-awesome-icon
-          v-for="i in 5"
-          :key="i"
-          icon="star"
-          id="user-icon"
-          class="text-emerald-500 text-xs"
-        /><span class="text-gray-400 text-xs ml-2">(127)</span>
+        <rating :rating="product.rating" />
       </p>
       <div><global-button /></div>
     </div>
@@ -34,6 +34,14 @@
 
 <script setup>
 import GlobalButton from "@/components/shared/GlobalButton.vue";
+import Rating from "@/components/shared/Rating.vue";
+
+defineProps({
+  product: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
 
 <style scoped>

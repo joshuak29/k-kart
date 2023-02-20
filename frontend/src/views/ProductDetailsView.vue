@@ -13,15 +13,26 @@
       items-center
       justify-center
       sm:p-20
+      overflow-y-scroll
     "
   >
     <font-awesome-icon
-      icon="angle-up"
-      class="fixed right-8 top-8 z-10 hidden sm:block"
+      icon="xmark"
+      class="
+        fixed
+        right-8
+        top-8
+        z-10
+        hidden
+        sm:block
+        text-gray-600
+        hover:text-black
+        text-3xl
+      "
       @click="close"
     />
-    <div class="pic w-full sm:w-1/2 h-full bg-gray-200 sm:p-10">
-      <img src="@/assets/logo.png" alt="pic" class="w-full h-full" />
+    <div class="pic w-full sm:w-1/2 h-full bg-gray-200 rounded-sm">
+      <img :src="productDetails.img" alt="pic" class="w-full h-full" />
     </div>
     <div
       class="
@@ -30,38 +41,28 @@
         sm:w-1/2
         h-full
         flex flex-col
-        justify-between
+        justify-start
+        gap-10
         px-5
         pb-5
       "
     >
       <div class="flex flex-col gap-4">
-        <h1 class="font-bold text-2xl">Hand Watch</h1>
+        <h1 class="font-bold text-2xl">{{ productDetails.name }}</h1>
         <p>
-          <span class="line-through opacity-50 mr-3">{{ price }}</span>
-          <span class="font-bold text-lg">{{ price }} Frw</span>
+          <span class="line-through opacity-50 mr-3">{{
+            productDetails.price - (productDetails.price / 100) * 30
+          }}</span>
+          <span class="font-bold text-lg">{{ productDetails.price }} Frw</span>
         </p>
-        <p class="text-xs opacity-70 font-light font-mono">4 in stock</p>
+        <p class="text-xs opacity-70 font-light font-mono">
+          {{ productDetails.stock }} in stock
+        </p>
       </div>
 
       <div class="flex flex-col gap-4 text-start justify-start">
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto
-          quisquam sapiente alias, suscipit cum iste fugiat blanditiis
-          reprehenderit. Doloremque quibusdam aliquam harum quis porro.
-          Accusamus cumque corporis exercitationem quibusdam itaque similique
-          ducimus blanditiis provident rem sed saepe incidunt ab rerum quis,
-          numquam, dicta facilis minima ipsam nihil nobis quasi eum.
-        </p>
-        <div class="flex flex-row gap-1">
-          <font-awesome-icon
-            icon="star"
-            class="text-teal-700"
-            v-for="i in 4"
-            :key="i"
-          />
-          <span class="ml-3">(127)</span>
-        </div>
+        <p>{{ productDetails.description }}</p>
+        <div class="flex flex-row gap-1"></div>
       </div>
 
       <global-button
@@ -73,15 +74,25 @@
 
 <script setup>
 import GlobalButton from "@/components/shared/GlobalButton.vue";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, computed, beforeMount } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useProductsStore } from "@/stores/products";
+import axios from "axios";
 
-const price = ref(30000);
+const productsStore = useProductsStore();
 
+const route = useRoute();
+const productDetails = ref("");
+
+onMounted(async () => {
+  let results = await axios.get(
+    `http://localhost:3000/products/${route.params.id}`
+  );
+  productDetails.value = results.data;
+});
 const router = useRouter();
 const close = () => {
-  console.log(router);
-  router.go(-1);
+  router.push("/products");
 };
 </script>
 

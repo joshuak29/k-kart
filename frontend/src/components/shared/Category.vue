@@ -1,5 +1,7 @@
 <template>
-  <div :class="className" class="font-bold mb-5">{{ props.name }}</div>
+  <div :class="className" class="font-bold mb-5">
+    <img :src="props.category.img" alt="image" />{{ props.category.category }}
+  </div>
 </template>
 
 <script setup>
@@ -9,8 +11,8 @@ const props = defineProps({
     type: String,
     default: "small",
   },
-  name: {
-    type: String,
+  category: {
+    type: Object,
     required: true,
   },
 });
