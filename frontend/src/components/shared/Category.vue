@@ -1,6 +1,14 @@
 <template>
   <div :class="className" class="font-bold mb-5">
-    <img :src="props.category.img" alt="image" />{{ props.category.category }}
+    <img
+      :src="props.category.img"
+      alt="image"
+      v-if="size === 'big'"
+      class="h-full w-full rounded-md"
+    />
+    <div class="text-gray-700" :class="{ absolute: size === 'big' }">
+      {{ props.category.category }}
+    </div>
   </div>
 </template>
 
@@ -24,10 +32,10 @@ const className = computed(() => {
 
 <style>
 .small {
-  @apply h-6 bg-teal-200 w-fit p-4 rounded hover:border-l-4 border-teal-700 cursor-pointer mb-3 flex items-center;
+  @apply h-6 bg-white  p-4 rounded  border-teal-700  hover:drop-shadow-lg cursor-pointer mb-3 flex items-center drop-shadow-xl;
   transition: all 0.1s;
 }
 .big {
-  @apply w-32 h-44 bg-gray-400 rounded-md flex justify-center pt-5;
+  @apply w-32 h-44 bg-gray-400 rounded-md flex justify-center relative;
 }
 </style>

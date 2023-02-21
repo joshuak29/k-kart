@@ -1,11 +1,13 @@
 <template>
   <div
-    class="product h-full w-full sm:h-72 sm:w-48 flex flex-col flex-nowrap mb-7"
+    class="product h-full min-[415]:h-96 w-full sm:h-96 sm:w-48 flex flex-col flex-nowrap mb-7"
   >
-    <div class="pic overflow-hidden">
+    <div class="pic overflow-hidden hover:shadow-lg">
       <!-- <font-awesome-icon icon="heart" class="text-white " /> -->
-      <router-link to="/products/1"
-        ><img :src="product.img" alt="product" class="w-full h-full"
+      <router-link
+        to="/products/1"
+        class="pic overflow-hidden w-full h-full hover:shadow-lg"
+        ><img :src="product.img" alt="product" class="w-full"
       /></router-link>
     </div>
     <div
@@ -45,10 +47,6 @@ defineProps({
 </script>
 
 <style scoped>
-.product {
-  min-width: 11rem;
-  max-width: 220px;
-}
 .product:hover {
   transform: translate(2);
 }
@@ -62,5 +60,11 @@ defineProps({
 .details {
   height: 38%;
   width: 100%;
+}
+@media screen and (min-width: 415px) {
+  .product {
+    min-width: 11rem;
+    max-width: 220px;
+  }
 }
 </style>

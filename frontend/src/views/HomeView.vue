@@ -7,15 +7,11 @@
         <h1>Shop Our Top Categories</h1>
         <div
           id="categories"
-          class="
-            flex flex-row flex-nowrap
-            gap-5
-            mt-5
-            overflow-x-scroll overflow-y-hidden
-          "
+          class="flex flex-row flex-nowrap gap-5 mt-5 overflow-x-scroll overflow-y-hidden"
         >
           <category
             v-for="i in productsStore.categories"
+            size="big"
             :category="i"
             :key="i.id"
           />
@@ -25,14 +21,7 @@
         <h1>Don't Miss Todays Best Deals</h1>
         <div
           id="hot-products"
-          class="
-            flex flex-row flex-nowrap
-            items-top
-            overflow-x-scroll overflow-y-hidden
-            gap-5
-            my-5
-            w-9/10
-          "
+          class="flex flex-row flex-nowrap items-top overflow-x-scroll overflow-y-hidden gap-5 my-5 w-9/10"
         >
           <product
             v-for="i in productsStore.hotProducts"

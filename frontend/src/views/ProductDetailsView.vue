@@ -1,51 +1,18 @@
 <template>
   <div
     id="container"
-    class="
-      bg-white
-      h-screen
-      w-screen
-      fixed
-      left-0
-      top-0
-      flex flex-col
-      sm:flex-row
-      items-center
-      justify-center
-      sm:p-20
-      overflow-y-scroll
-    "
+    class="bg-white h-screen w-screen fixed left-0 top-0 flex flex-col sm:flex-row items-center justify-center sm:p-20 overflow-y-scroll"
   >
     <font-awesome-icon
       icon="xmark"
-      class="
-        fixed
-        right-8
-        top-8
-        z-10
-        hidden
-        sm:block
-        text-gray-600
-        hover:text-black
-        text-3xl
-      "
+      class="fixed right-8 top-8 z-10 hidden sm:block text-gray-600 hover:text-black text-3xl"
       @click="close"
     />
     <div class="pic w-full sm:w-1/2 h-full bg-gray-200 rounded-sm">
       <img :src="productDetails.img" alt="pic" class="w-full h-full" />
     </div>
     <div
-      class="
-        details
-        w-full
-        sm:w-1/2
-        h-full
-        flex flex-col
-        justify-start
-        gap-10
-        px-5
-        pb-5
-      "
+      class="details w-full sm:w-1/2 h-full flex flex-col justify-start gap-10 px-5 pb-5"
     >
       <div class="flex flex-col gap-4">
         <h1 class="font-bold text-2xl">{{ productDetails.name }}</h1>
@@ -74,7 +41,7 @@
 
 <script setup>
 import GlobalButton from "@/components/shared/GlobalButton.vue";
-import { ref, onMounted, computed, beforeMount } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useProductsStore } from "@/stores/products";
 import axios from "axios";

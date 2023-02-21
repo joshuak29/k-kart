@@ -1,10 +1,27 @@
 <template>
   <header class="h-16">
-    <nav class="fixed top-0 left-0 w-full h-16 px-10 bg-white">
-      <ul class="h-full w-full flex flex-row items-center text-center">
-        <li class="logo"><router-link to="/">Kigali Kart</router-link></li>
+    <nav
+      class="fixed top-0 left-0 w-full h-16 bg-white p-2 px-4 min-[415]:px-12"
+    >
+      <ul class="h-full w-full flex flex-row items-center justify-between">
+        <li class="text-start">
+          <font-awesome-icon
+            icon="filter"
+            class="text-gray-800 text-lg"
+            @click="productsStore.openCloseFilters"
+          />
+        </li>
+        <li class="text-center">
+          <h1>K-Kart</h1>
+        </li>
+        <li class="text-end">
+          <font-awesome-icon icon="bars" @click="productsStore.openCloseMenu" />
+        </li>
+        <!-- <li class="logo w-2/12 flex justify-start">
+          <router-link to="/">K-Kart</router-link>
+        </li>
         <li
-          class="text-end cursor-pointer"
+          class="categories-dropdown min-[415]:block"
           @click="categoriesDropDown = !categoriesDropDown"
         >
           Categories<span class="ml-2"
@@ -13,34 +30,37 @@
               class="text-xs"
               id="drop-icon"
           /></span>
-        </li>
+        </li> 
         <li>
-          <router-link to="/products">Shop Now</router-link>
-        </li>
-        <li class="search justify-end flex flex-row">
+          <router-link to="/products" class="hidden min-[415]:block"
+            >Shop Now</router-link
+          >
+        </li> 
+        <li class="search justify-end flex flex-row w-5/12 grow">
           <input
             type="search"
             class="bg-gray-100 rounded-l-3xl px-2"
             placeholder="search"
           />
-          <span class="bg-gray-100 h-6 w-8 rounded-r-3xl"
+          <span class="bg-gray-100 h-6 w-6 rounded-r-3xl"
             ><font-awesome-icon
               icon="search"
               class="text-gray-500 text-sm hover:text-black"
           /></span>
         </li>
-        <li class="flex flex-row justify-end gap-10">
+        <li class="flex flex-row justify-end gap-2 w-2/12 justify-center">
           <span class="flex flex-row gap-3 cursor-pointer"
-            ><font-awesome-icon icon="user" /> Account</span
+            ><font-awesome-icon icon="user" />
+            <span class="hidden min-[415]:block">Account</span></span
           >
           <span
             class="cart flex flex-row gap-3 cursor-pointer"
             cart-length="2"
             @click="openCart"
             ><font-awesome-icon icon="cart-shopping" id="cart-icon" />
-            Cart</span
+            <span class="hidden min-[415]:block">Cart</span></span
           >
-        </li>
+        </li> -->
       </ul>
     </nav>
   </header>
@@ -48,7 +68,9 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useProductsStore } from "@/stores/products";
 
+const productsStore = useProductsStore();
 const categoriesDropDown = ref(false);
 
 const categoriesIsDroppedDown = computed(() =>
@@ -74,8 +96,7 @@ li.search {
 li.logo {
   text-align: start;
 }
-#user-icon,
-#cart-icon {
+#user-icon {
   transform: translateY(5px);
 }
 #drop-icon {
@@ -89,19 +110,10 @@ li.logo {
 }
 .cart::after {
   content: attr(cart-length);
-  /*display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  height: 1rem;
-  width: 1rem;
-  border-radius: 50%;
-  color: white;
-  background: teal;
-  position: absolute;
-  left: 100%;
-  top: -10%;
-  font-size: 0.7rem;
-  font-weight: bold;*/
+  top: -0.7rem;
+  left: 60%;
+}
+.categories-dropdown {
+  @apply text-end cursor-pointer hidden;
 }
 </style>
