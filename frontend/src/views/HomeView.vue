@@ -1,27 +1,27 @@
 <template>
-  <div class="overflow-x-hidden overflow-y-scroll h-screen w-screen pb-10">
+  <section
+    class="page home-view overflow-x-hidden overflow-y-scroll f-screen w-full pb-10 mt-16"
+  >
     <the-hero />
-    <!-- <home-categories /> -->
-    <div class="md:px-10">
-      <div class="mt-10">
+    <div class="px-2">
+      <div class="top-categories flex flex-col mt-10">
         <h1>Shop Our Top Categories</h1>
-        <div
-          id="categories"
-          class="flex flex-row flex-nowrap gap-5 mt-5 overflow-x-scroll overflow-y-hidden"
-        >
-          <category
-            v-for="i in productsStore.categories"
-            size="big"
-            :category="i"
-            :key="i.id"
-          />
+        <div class="w-full overflow-x-scroll mt-5">
+          <div class="w-fit h-full flex flex-row flex-nowrap gap-2">
+            <category
+              v-for="category in productsStore.categories"
+              :key="category.id"
+              :category="category"
+              size="big"
+            />
+          </div>
         </div>
       </div>
-      <div class="flex flex-col mt-10">
+      <div class="hot-products flex flex-col mt-10">
         <h1>Don't Miss Todays Best Deals</h1>
         <div
           id="hot-products"
-          class="flex flex-row flex-nowrap items-top overflow-x-scroll overflow-y-hidden gap-5 my-5 w-9/10"
+          class="flex flex-row flex-nowrap items-top overflow-x-scroll overflow-y-hidden gap-5 mt-5"
         >
           <product
             v-for="i in productsStore.hotProducts"
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 <script setup>
 import TheHero from "@/components/home/TheHero.vue";

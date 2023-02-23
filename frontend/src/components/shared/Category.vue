@@ -1,14 +1,7 @@
 <template>
-  <div :class="className" class="font-bold mb-5">
-    <img
-      :src="props.category.img"
-      alt="image"
-      v-if="size === 'big'"
-      class="h-full w-full rounded-md"
-    />
-    <div class="text-gray-700" :class="{ absolute: size === 'big' }">
-      {{ props.category.category }}
-    </div>
+  <div class="w-24 h-36 bg-gray-300 relative rounded-2xl mb-2">
+    <img :src="category.img" alt="" class="w-full h-full rounded-xl" />
+    <span class="absolute top-0 w-full h-fit py-2 text-center">Fashion</span>
   </div>
 </template>
 
@@ -17,7 +10,7 @@ import { computed } from "vue";
 const props = defineProps({
   size: {
     type: String,
-    default: "small",
+    default: "big",
   },
   category: {
     type: Object,
@@ -31,11 +24,4 @@ const className = computed(() => {
 </script>
 
 <style>
-.small {
-  @apply h-6 bg-white  p-4 rounded  border-teal-700  hover:drop-shadow-lg cursor-pointer mb-3 flex items-center drop-shadow-xl;
-  transition: all 0.1s;
-}
-.big {
-  @apply w-32 h-44 bg-gray-400 rounded-md flex justify-center relative;
-}
 </style>

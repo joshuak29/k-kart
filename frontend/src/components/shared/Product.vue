@@ -1,13 +1,16 @@
 <template>
-  <div
-    class="product h-full min-[415]:h-96 w-full sm:h-96 sm:w-48 flex flex-col flex-nowrap mb-7"
-  >
+  <div class="product w-5/12 h-fit flex flex-col flex-nowrap mb-7 relative">
     <div class="pic overflow-hidden hover:shadow-lg">
-      <!-- <font-awesome-icon icon="heart" class="text-white " /> -->
+      <font-awesome-icon
+        icon="heart"
+        class="absolute right-2 top-2 z-10 text-2xl"
+        :class="{ 'text-red-500': like }"
+        @click="like = !like"
+      />
       <router-link
         to="/products/1"
         class="pic overflow-hidden w-full h-full hover:shadow-lg"
-        ><img :src="product.img" alt="product" class="w-full"
+        ><img :src="product.img" alt="product border-black" class="w-full"
       /></router-link>
     </div>
     <div
@@ -37,6 +40,9 @@
 <script setup>
 import GlobalButton from "@/components/shared/GlobalButton.vue";
 import Rating from "@/components/shared/Rating.vue";
+import { ref } from "vue";
+
+const like = ref(false);
 
 defineProps({
   product: {

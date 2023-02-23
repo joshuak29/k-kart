@@ -1,12 +1,12 @@
 <template>
-  <navbar />
+  <navbar class="nav" v-if="showNav" />
   <router-view />
-  <transition name="filters">
+  <!-- <transition name="filters">
     <filters-view v-if="productsStore.filtersOpen" />
   </transition>
   <transition name="menu">
     <menu-view v-if="productsStore.menuOpen" />
-  </transition>
+  </transition> -->
 </template>
 
 <script setup>
@@ -15,7 +15,8 @@ import MenuView from "@/views/MenuView.vue";
 import Navbar from "@/components/Navbar.vue";
 import { useProductsStore } from "@/stores/products";
 import { useUserStore } from "@/stores/user";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 const productsStore = useProductsStore();
 const userStore = useUserStore();
@@ -24,13 +25,26 @@ const fetchAll = () => {
   productsStore.getProducts();
   userStore.fetchCart();
 };
+const route = useRoute();
+
+const showNav = computed(
+  () =>
+    route.name === "home" ||
+    route.name === "products" ||
+    route.name === "favourites"
+);
 onMounted(() => {
   fetchAll();
 });
 </script>
 <style>
-body {
-  overflow-y: hidden;
+.nav {
+  z-index: 11;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
 }
 ::-webkit-scrollbar {
   width: 4px;
@@ -49,22 +63,12 @@ body {
   background: black;
   display: block;
 }
-</style>
-<style scoped>
 .filters-leave-to,
 .filters-enter-from {
   width: 0%;
 }
 .filters-leave-active,
 .filters-enter-active {
-  transition: all 0.2s;
-}
-.menu-leave-to,
-.menu-enter-from {
-  transform: translateX(100%);
-}
-.menu-leave-active,
-.menu-enter-active {
   transition: all 0.2s;
 }
 </style>
