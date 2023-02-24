@@ -322,6 +322,43 @@ export const useProductsStore = defineStore("products", {
         hot: false,
       },
     ],
+    stores: [
+      {
+        id: 1,
+        name: "Simba Kigali Town",
+        description:
+          "Simba is a chain of supermarkets with branches across the city. They’re generally the best-stocked and most reasonably priced supermarkets in Kigali.",
+        location: "Kigali Town",
+      },
+      {
+        id: 2,
+        name: "Simba Kigali Heights",
+        description:
+          "Despite being one of the biggest supermarkets in Kigali, Simba’s Kigali Heights branch is quite poorly stocked.",
+        location: "Kacyiru",
+      },
+      {
+        id: 3,
+        name: "La Gallette",
+        description:
+          "La Galette is a very expensive supermarket selling imported ‘Western’ produce, canned goods, cheese, homemade ice cream, a huge range of alcohol, and good quality meat.",
+        location: "Muhima",
+      },
+      {
+        id: 4,
+        name: "T 2000 ",
+        description:
+          "T-200 is a big homewares store selling cheap but decent products imported from China at wholesale prices. ",
+        location: "Kigali Town",
+      },
+      {
+        id: 5,
+        name: "Sawa City",
+        description:
+          "This Sawa Citi is smaller than its sister store in Kimihurura, but it’s convenient for people living in Remera. As with the other store, there’s a Brood, and you’ll occasionally find some interesting foodstuff for sale at reasonable prices.",
+        location: "Remera",
+      },
+    ],
   }),
   actions: {
     async getCategories() {

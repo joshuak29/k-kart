@@ -12,38 +12,27 @@
     </div>
 
     <div id="container">
-      <div class="flex flex-col gap-2 border-b border-gray-300 pb-2">
+      <div class="flex flex-col gap-2 border-gray-300 pb-2">
         <cart-item
           v-for="item in productsStore.cartItems"
           :key="item.id"
           :item="item"
         />
-        <div>
-          <span>Total</span>
-          <span class="checkout text-2xl font-bold text-sky-500"
+        <div class="flex flex-row justify-between my-5">
+          <span class="text-gray-700">Total</span>
+          <span class="w-fullcheckout text-2xl font-bold text-sky-500"
             >200000 frw</span
           >
         </div>
       </div>
-
-      <div class="checkout-container">
-        <p class="checkout text-2xl font-bold text-sky-500">200000 frw</p>
-        <p class="checkout">
-          <button>
-            <font-awesome-icon
-              icon="credit-card"
-              class="text-sm translate-y-1"
-            />
-            Check Out
-          </button>
-        </p>
-      </div>
+      <checkout-button icon="credit-card" />
     </div>
   </section>
 </template>
 
 <script setup>
 import CartItem from "@/components/CartItem.vue";
+import CheckoutButton from "@/components/shared/CheckoutButton.vue";
 import { useRouter } from "vue-router";
 import { useProductsStore } from "@/stores/products";
 import { onMounted } from "vue";
@@ -60,13 +49,7 @@ const router = useRouter();
 .cart-view {
   @apply bg-white h-screen w-screen fixed left-0 top-0 flex flex-col justify-center items-center pt-4;
 }
-.checkout {
-  @apply w-1/2 h-full flex items-center justify-center;
-}
-.checkout button {
-  @apply bg-blue-600 hover:bg-blue-700 rounded-3xl p-4 font-bold text-lg text-sky-300 flex flex-row gap-4;
-}
-.checkout-container {
-  @apply mt-6 h-24 bg-white w-screen rounded-t-2xl flex flex-row items-center -translate-x-6;
+.checkout-btn {
+  @apply bg-blue-500 py-4 px-4 rounded-2xl text-white flex flex-row justify-between items-center mb-2;
 }
 </style>

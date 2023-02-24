@@ -5,6 +5,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faAngleDown,
   faAngleUp,
+  faAngleRight,
   faAngleLeft,
   faSearch,
   faCartShopping,
@@ -32,7 +33,6 @@ const pinia = createPinia();
 
 library.add(faSearch);
 library.add(faAngleDown);
-library.add(faAngleLeft);
 library.add(faAngleUp);
 library.add(faCartShopping);
 library.add(faUser);
@@ -49,6 +49,8 @@ library.add(faCartFlatbed);
 library.add(faSliders);
 library.add(faGear);
 library.add(faArrowRightFromBracket);
+library.add(faAngleLeft);
+library.add(faAngleRight);
 
 createApp(App)
   .use(router)

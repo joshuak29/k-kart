@@ -1,7 +1,13 @@
 <template>
   <div class="w-24 h-36 bg-gray-300 relative rounded-2xl mb-2">
-    <img :src="category.img" alt="" class="w-full h-full rounded-xl" />
-    <span class="absolute top-0 w-full h-fit py-2 text-center">Fashion</span>
+    <img
+      :src="category.img"
+      :alt="category.category"
+      class="w-full h-full rounded-xl"
+    />
+    <span class="absolute top-0 w-full h-fit py-2 text-center">{{
+      category.category
+    }}</span>
   </div>
 </template>
 
