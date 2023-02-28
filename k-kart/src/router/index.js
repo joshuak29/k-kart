@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { auth } from "@/firebaseConfig";
+import { auth } from '@/firebaseConfig'
+import { useUserStore } from '@/stores/user'
 
 import HomeView from '@/views/HomeView.vue'
 import ProductsView from '@/views/ProductsView.vue'
@@ -18,10 +19,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'user',
-      component: AuthenticateView,
-      meta: {
-        requiresAuth: false
-      }
+      component: AuthenticateView
     },
     {
       path: '/home',
@@ -63,14 +61,14 @@ const router = createRouter({
         requiresAuth: true
       }
     },
-    {
-      path: '/filters',
-      name: 'filters',
-      component: FiltersView,
-      meta: {
-        requiresAuth: true
-      }
-    },
+    // {
+    //   path: '/filters',
+    //   name: 'filters',
+    //   component: FiltersView,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '/favourites',
       name: 'favourites',
@@ -82,35 +80,32 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginView,
-      meta: {
-        requiresAuth: false
-      }
+      component: LoginView
     },
     {
       path: '/login-verify',
       name: 'loginVerify',
-      component: LoginVerifyView,
-      meta: {
-        requiresAuth: false
-      }
+      component: LoginVerifyView
     }
   ]
 })
 
-router.beforeEach((to, from) => {
-  if(to.meta.requiresAuth) {
-    if(!auth.currentUser){
-      alert("You need to be logged in to start shopping")
-      return({ name: "user"})
-    }
-  } else {
-    if(auth.currentUser) {
-      alert("You're already signed in.")
-      console.log(auth.currentUser);
-      return({name: "menu"})
-    }
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.meta.requiresAuth && !auth.currentUser) {
+    next('/')
+    return
   }
+  if (!to.meta.requiresAuth && auth.currentUser) {
+    next('/home')
+    return
+  }
+  next()
 })
+// router.beforeEach(async (to, from) => {
+//   console.log(to.meta);
+//   const authUser = await auth.currentUser
+//   console.log(auth.currentUser);
+// })
 
 export default router

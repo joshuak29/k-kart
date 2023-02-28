@@ -23,7 +23,8 @@ import {
   faSliders,
   faGear,
   faArrowRightFromBracket,
-  faCircleExclamation
+  faCircleExclamation,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 
 import App from './App.vue'
@@ -53,5 +54,6 @@ library.add(faArrowRightFromBracket)
 library.add(faAngleLeft)
 library.add(faAngleRight)
 library.add(faCircleExclamation)
+library.add(faSpinner)
 
 createApp(App).use(router).use(pinia).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

@@ -13,14 +13,16 @@
       </div>
     </div>
     <button
-      :disabled="tel.length !== 10"
+      :disabled="tel.length !== 10 || loading"
       class="h-12 w-2/3 bg-blue-500 rounded-lg text-xl text-white font-bold disabled:bg-blue-400 disabled:text-blue-300"
       type="submit"
     >
-      Next
+      <span v-if="!loading">Next</span>
+      <loading v-if="loading"/>
     </button>
     <div id="sign-in-recaptcha"></div>
   </form>
+  <page-info v-if="error" :message="error"  />
 </template>
 
 <script setup>
@@ -28,30 +30,61 @@ import { useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 import { auth } from '@/firebaseConfig'
 import { RecaptchaVerifier, signInWithPhoneNumber, setPersistence } from 'firebase/auth'
-import { useUserStore } from "@/stores/user"
+import { useUserStore } from '@/stores/user'
 
-const userStore = useUserStore();
+import PageInfo from '@/components/errors/PageInfo.vue'
+import Loading from '../../components/shared/Loading.vue'
+
+const userStore = useUserStore()
 const router = useRouter()
+
+const loading = ref(false);
+
 const tel = ref('6505551234')
 const telNmbr = computed(() => {
   return '+1' + tel.value
 })
 
-const signIn = () => {
-  window.recaptchaVerifier = new RecaptchaVerifier("sign-in-recaptcha", {
-			'size': 'invisible',
-			'callback': (response) => {
-				// reCAPTCHA solved, allow signInWithPhoneNumber.
-			}
-		}, auth)
+const error = ref(null)
+
+const signIn = async () => {
+  loading.value = true
+  error.value = null
+  window.recaptchaVerifier = new RecaptchaVerifier(
+    'sign-in-recaptcha',
+    {
+      size: 'invisible',
+      callback: (response) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+      }
+    },
+    auth
+  )
   const verifier = window.recaptchaVerifier
 
-  signInWithPhoneNumber(auth, telNmbr.value, verifier).then((resp) => {
-    userStore.addOTP(resp);
-    router.push('/login-verify');
-  }).catch((err) => {
-    alert(err.code);
-  })
+  await signInWithPhoneNumber(auth, telNmbr.value, verifier)
+    .then((resp) => {
+      error.value = null
+      userStore.addOTP(resp)
+      loading.value = false
+      router.push('/login-verify')
+    })
+    .catch((err) => {
+      // alert(err.code)
+      // error.value = err.code
+      // console.log(err.code);
+      switch (err.code) {
+        case 'auth/internal-error':
+          error.value = "You're not connected!"
+          break
+
+        default:
+          error.value = 'Error!'
+          break
+      }
+      loading.value = false
+      return
+    })
 }
 const getError = (code) => {}
 </script>

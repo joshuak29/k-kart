@@ -11,25 +11,19 @@
       </li>
       <li class="text-end">
         <router-link to="/menu" id="bars" class="relative"
-          ><font-awesome-icon icon="bars"
+          ><font-awesome-icon icon="bars" :style="{'--cart': 4}"
         /></router-link>
       </li>
     </ul>
   </nav>
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useProductsStore } from "@/stores/products";
-
-const productsStore = useProductsStore();
-const categoriesDropDown = ref(false);
-const router = useRouter();
-const route = useRoute();
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
 </script>
 <style scoped>
 #bars::after {
-  content: "4";
+  content: "";
   position: absolute;
   z-index: 14;
   width: 1rem;

@@ -49,6 +49,8 @@
       <div class="menu-item">
         <font-awesome-icon class="menu-icon" icon="gear" /><span>Settings</span>
       </div>
+      <div class="menu-item">
+      </div>
     </div>
     <div class="flex flex-row justify-end">
       <button @click="signOutUser"><font-awesome-icon
@@ -63,18 +65,18 @@
   
 <script setup>
 import { useProductsStore } from "@/stores/products";
-
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 
-const router = useRouter();
-const signOutUser = () => {
 
-  signOut(auth).then(() => {
-    router.push("/")
-  })
+const router = useRouter();
+const signOutUser = async () => {
+
+  await signOut(auth)
+
+  router.push("/")
 }
 </script>
   
