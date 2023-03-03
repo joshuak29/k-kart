@@ -1,9 +1,6 @@
 <template>
   <transition name="page-error">
-    <div
-      v-if="transition"
-      class="fixed bottom-0 left-0 w-full h-20"
-    >
+    <div v-if="transition" class="fixed bottom-0 left-0 w-full h-20">
       <div class="error-container" v-if="error && transition">
         <font-awesome-icon icon="fa-circle-exclamation" class="mr-8 text-3xl" />{{ message }}
       </div>
@@ -34,7 +31,7 @@ onMounted(() => {
   transition.value = true
   setInterval(() => {
     transition.value = false
-  }, 5000)
+  }, 7000)
 })
 </script>
 

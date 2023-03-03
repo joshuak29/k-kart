@@ -6,12 +6,12 @@ import HomeView from '@/views/HomeView.vue'
 import ProductsView from '@/views/ProductsView.vue'
 import ProductDetailsView from '@/views/ProductDetailsView.vue'
 import CartView from '@/views/CartView.vue'
-import FiltersView from '@/views/FiltersView.vue'
 import MenuView from '@/views/MenuView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
 import AuthenticateView from '@/views/authentication/AuthenticationView.vue'
 import LoginView from '@/views/authentication/LoginView.vue'
-import LoginVerifyView from '@/views/authentication/LoginVerifyView.vue'
+import FiltersView from '@/views/FiltersView.vue'
+import SignupView from '@/views/authentication/SignupView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,9 +83,9 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/login-verify',
-      name: 'loginVerify',
-      component: LoginVerifyView
+      path: '/signup',
+      name: 'signup',
+      component: SignupView
     }
   ]
 })
@@ -102,10 +102,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-// router.beforeEach(async (to, from) => {
-//   console.log(to.meta);
-//   const authUser = await auth.currentUser
-//   console.log(auth.currentUser);
-// })
 
 export default router

@@ -2,7 +2,7 @@
   <section id="container" class="h-screen w-screen">
     <div class="w-full h-full flex-col flex">
       <div class="w-full h-2/3 p-5">
-        <img src="@/assets/K-KART.png" alt="home" class="w-full h-full" />
+        <img src="@/assets/K-KART.png" alt="home" class="w-full " />
       </div>
       <div class="w-full h-1/3 flex flex-col justify-center items-center gap-5">
         <button
@@ -10,6 +10,12 @@
           @click="router.push('/login')"
         >
           Login
+        </button>
+        <button
+          class="btn bg-slate-100 text-slate-600 text-lg"
+          @click="router.push('/signup')"
+        >
+          Get Started
         </button>
         <!-- <button class="btn border border-blue-500 text-blue-500">
           Get Started

@@ -6,6 +6,7 @@ import { useProductsStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 import { computed, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { addData, setData, updateData, createEmailAcc } from "@/playground";
 
 const productsStore = useProductsStore()
 const userStore = useUserStore()
@@ -23,6 +24,12 @@ onBeforeMount(() => {
   <navbar class="nav" v-if="showNav" />
 
   <RouterView />
+  <!-- <button @click="createEmailAcc">Create Account</button> -->
+  <!-- <button @click="addData">Add data</button>
+  <button @click="setData">Set data</button>
+  <button @click="updateData">Update data</button>
+  <button @click="delDoc">Delete data</button> -->
+
 </template>
 
 <style scoped>

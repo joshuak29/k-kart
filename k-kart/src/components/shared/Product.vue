@@ -4,7 +4,7 @@
       <font-awesome-icon
         icon="heart"
         class="absolute right-2 top-2 z-10 text-2xl"
-        :class="{ 'text-red-500': like }"
+        :class="{ 'text-red-500': product.liked }"
         @click="like = !like"
       />
       <router-link

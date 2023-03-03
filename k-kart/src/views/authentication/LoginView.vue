@@ -1,93 +1,110 @@
-<template>
-  <form class="flex flex-col items-center gap-10 p-10 pt-4" @submit.prevent="signIn">
-    <div class="text-center text-xl font-semibold">Enter your number to continue</div>
-    <div class="flex flex-row justify-center h-12">
-      <div class="h-full items-center flex px-2 bg-blue-50 border-r rounded-l-lg text-lg">+250</div>
-      <div class="h-full items-center flex bg-blue-50 rounded-3xl">
-        <input
-          type="tel"
-          placeholder="7xxxxxxxx"
-          class="h-full w-full px-2 bg-blue-50 rounded-r-lg text-gray-500 text-2xl font-semibold"
-          v-model="tel"
-        />
-      </div>
-    </div>
-    <button
-      :disabled="tel.length !== 10 || loading"
-      class="h-12 w-2/3 bg-blue-500 rounded-lg text-xl text-white font-bold disabled:bg-blue-400 disabled:text-blue-300"
-      type="submit"
-    >
-      <span v-if="!loading">Next</span>
-      <loading v-if="loading"/>
-    </button>
-    <div id="sign-in-recaptcha"></div>
-  </form>
-  <page-info v-if="error" :message="error"  />
-</template>
-
 <script setup>
 import { useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
 import { auth } from '@/firebaseConfig'
-import { RecaptchaVerifier, signInWithPhoneNumber, setPersistence } from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useUserStore } from '@/stores/user'
 
 import PageInfo from '@/components/errors/PageInfo.vue'
-import Loading from '../../components/shared/Loading.vue'
+import Loading from '@/components/shared/Loading.vue'
+import FormError from '@/components/errors/FormError.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
 
-const loading = ref(false);
+const pageError = ref(null)
+const formError = ref(null)
+const loading = ref(false)
+const showingPassword = ref(false)
 
-const tel = ref('6505551234')
-const telNmbr = computed(() => {
-  return '+1' + tel.value
+const showPassword = computed(() => {
+  return showingPassword ? 'eye' : 'eye-slash'
 })
 
-const error = ref(null)
-
-const signIn = async () => {
+const email = ref('')
+const password = ref('')
+const signIn = () => {
+  pageError.value = null
   loading.value = true
-  error.value = null
-  window.recaptchaVerifier = new RecaptchaVerifier(
-    'sign-in-recaptcha',
-    {
-      size: 'invisible',
-      callback: (response) => {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-      }
-    },
-    auth
-  )
-  const verifier = window.recaptchaVerifier
-
-  await signInWithPhoneNumber(auth, telNmbr.value, verifier)
-    .then((resp) => {
-      error.value = null
-      userStore.addOTP(resp)
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      router.push('/home')
       loading.value = false
-      router.push('/login-verify')
     })
-    .catch((err) => {
-      // alert(err.code)
-      // error.value = err.code
-      // console.log(err.code);
-      switch (err.code) {
-        case 'auth/internal-error':
-          error.value = "You're not connected!"
+    .catch((error) => {
+      switch (error.code) {
+        case 'auth/user-not-found':
+          formError.value = 'Wrong Email or Password'
+          break
+
+        case 'auth/user-disabled':
+          formError.value = 'User has been disabled'
+          break
+
+        case 'auth/network-request-failed':
+          pageError.value = 'Network failed. Check connetction and try again'
           break
 
         default:
-          error.value = 'Error!'
+          formError.value = 'An error occured. Try again later'
           break
       }
+      password.value = ''
       loading.value = false
-      return
     })
 }
-const getError = (code) => {}
 </script>
+<template>
+  <div class="w-screen h-screen flex flex-col p-5 items-center">
+    <page-info v-if="pageError" :message="pageError" />
+    <img src="@/assets/K-KART.png" alt="k-kart" />
+    <h1 class="text-2xl font-bold mb-8 text-blue-500">Sign in to your account</h1>
+    <form class="flex flex-col items-center w-3/4 gap-4 pb-2" @submit.prevent="signIn">
+      <label
+        ><font-awesome-icon icon="envelope" /><input
+          type="email"
+          class="grow pl-2"
+          placeholder="name@example.com"
+          v-model="email"
+          :disabled="loading"
+          required
+      /></label>
+      <label
+        ><font-awesome-icon icon="lock" /><input
+          type="password"
+          class="grow pl-2"
+          placeholder="*****"
+          v-model="password"
+          :disabled="loading"
+          required
+        />
+        <font-awesome-icon
+          :icon="showPassword"
+          class="text-slate-700 text-sm z-10"
+          @click="console.log('view')"
+        />
+      </label>
 
-<style>
+      <form-error v-if="formError" :text="formError" />
+
+      <button
+        type="submit"
+        class="w-full py-2 px-2 rounded-3xl bg-blue-500 text-white font-bold mt-2"
+        :disabled="loading"
+      >
+        <span v-if="!loading">Sign In</span> <loading v-if="loading" />
+      </button>
+    </form>
+    <p class="text-slate-400 text-sm">
+      New here? <router-link to="/signup" class="underline text-slate-600">Sign Up</router-link>
+    </p>
+  </div>
+  <!-- <page-info v-if="formError" :message="formError" /> -->
+</template>
+
+<style scoped>
+label,
+.label {
+  @apply w-full py-2 px-2 shadow-md rounded-3xl bg-white flex flex-row items-center gap-4;
+}
 </style>

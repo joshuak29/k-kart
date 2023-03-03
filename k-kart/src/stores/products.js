@@ -39,6 +39,7 @@ export const useProductsStore = defineStore("products", {
         stock: 3,
         category_id: 1,
         hot: false,
+        liked: true
       },
       {
         id: 4,
@@ -51,6 +52,7 @@ export const useProductsStore = defineStore("products", {
         stock: 10,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 5,
@@ -74,6 +76,7 @@ export const useProductsStore = defineStore("products", {
         stock: 1,
         category_id: 1,
         hot: false,
+        liked: true
       },
       {
         id: 7,
@@ -96,6 +99,7 @@ export const useProductsStore = defineStore("products", {
         stock: 2,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 9,
@@ -118,6 +122,7 @@ export const useProductsStore = defineStore("products", {
         stock: 15,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 11,
@@ -273,6 +278,7 @@ export const useProductsStore = defineStore("products", {
         stock: 2,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 2,
@@ -285,6 +291,7 @@ export const useProductsStore = defineStore("products", {
         stock: 1,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 3,
@@ -296,6 +303,7 @@ export const useProductsStore = defineStore("products", {
         stock: 3,
         category_id: 1,
         hot: false,
+        liked: true
       },
       {
         id: 4,
@@ -308,6 +316,7 @@ export const useProductsStore = defineStore("products", {
         stock: 10,
         category_id: 1,
         hot: true,
+        liked: true
       },
       {
         id: 5,
@@ -320,6 +329,7 @@ export const useProductsStore = defineStore("products", {
         stock: 10,
         category_id: 1,
         hot: false,
+        liked: true
       },
     ],
     stores: [

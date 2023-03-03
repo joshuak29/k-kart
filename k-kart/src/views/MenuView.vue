@@ -10,7 +10,8 @@
         />
       </header>
       <div class="w-7/12 flex flex-col">
-        <div class="text-lg">Rukundo Joshua</div>
+        <div class="text-lg" v-if="userStore.user">{{ userStore.user.name }}</div>
+        <div class="text-md" v-else>Loading...</div>
         <div class="font-light font-mono text-sm">Active</div>
       </div>
 
@@ -65,11 +66,13 @@
   
 <script setup>
 import { useProductsStore } from "@/stores/products";
+import { useUserStore } from "@/stores/user";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 
+const userStore = useUserStore();
 
 const router = useRouter();
 const signOutUser = async () => {

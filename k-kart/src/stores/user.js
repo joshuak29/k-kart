@@ -3,6 +3,8 @@ import axios from 'axios'
 import { auth } from '@/firebaseConfig'
 import { signInWithPhoneNumber } from 'firebase/auth'
 import router from '@/router'
+import { getDoc, doc } from 'firebase/firestore'
+import { db } from "@/firebaseConfig"
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -22,8 +24,15 @@ export const useUserStore = defineStore('user', {
     addOTP(otp) {
       this.otp = otp
     },
-    addUser(user) {
-      this.user = user
+    async addUser(user) {
+      const userSnapshot = await getDoc(doc(db, 'users', user.uid))
+      if(userSnapshot) {
+        this.user = userSnapshot.data()
+      }
+      else {
+        console.log("Error getting user details");
+      }
+      
     },
     clearUser() {
       this.user = null
@@ -33,7 +42,7 @@ export const useUserStore = defineStore('user', {
         if (user === null) {
           this.clearUser()
           const routePath = router.currentRoute.value.path
-          const routes = ['/', '/login', '/login-verify']
+          const routes = ['/', '/login', '/signup']
 
           if (
             router.isReady() &&
@@ -46,7 +55,7 @@ export const useUserStore = defineStore('user', {
           this.addUser(user)
 
           const routePath = router.currentRoute.value.path
-          const routes = ['/', '/login', '/login-verify']
+          const routes = ['/', '/login', '/signup']
 
           if (
             router.isReady() &&
