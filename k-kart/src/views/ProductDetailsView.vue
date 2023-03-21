@@ -1,5 +1,6 @@
 <template>
   <section id="container">
+    <!-- header -->
     <div class="w-full h-fit py-6 pl-6">
       <font-awesome-icon
         icon="arrow-left"
@@ -7,6 +8,8 @@
         @click="router.go(-1)"
       />
     </div>
+
+    <!-- picture -->
     <div class="pic">
       <img
         :src="productDetails.img"
@@ -14,6 +17,8 @@
         class="w-full h-full rounded-t-3xl"
       />
     </div>
+
+    <!-- product details -->
     <div class="details">
       <div class="flex flex-col gap-4">
         <h1 class="name font-bold text-2xl">{{ productDetails.name }}</h1>
@@ -37,19 +42,29 @@
 
       <global-button
         class="bg-black text-white hover:bg-white hover:text-black"
+        @click="userStore.addToCart(productDetails.id)"
       />
     </div>
   </section>
+    <float-cart v-if="userStore.cart.length > 0"/>
+
 </template>
 
 <script setup>
-import GlobalButton from "@/components/shared/GlobalButton.vue";
 import { ref, onMounted, computed, onBeforeMount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useProductsStore } from "@/stores/products";
+import { useUserStore } from "@/stores/user";
 import axios from "axios";
 
+import GlobalButton from "@/components/shared/GlobalButton.vue";
+import FloatCart from '@/components/FloatCart.vue'
+
 const productsStore = useProductsStore();
+const userStore = useUserStore();
+
+const router = useRouter();
+
 
 const route = useRoute();
 const productDetails = ref([]);
@@ -60,7 +75,6 @@ onBeforeMount(() => {
   });
   productDetails.value = results[0];
 });
-const router = useRouter();
 </script>
 
 <style scoped>
@@ -71,6 +85,6 @@ const router = useRouter();
   @apply w-full h-fit bg-gray-200 rounded-sm rounded-t-3xl;
 }
 .details {
-  @apply w-full h-fit flex flex-col justify-start gap-10 px-5 pb-5;
+  @apply w-full h-fit flex flex-col justify-start gap-10 px-5 pb-5 mt-10;
 }
 </style>

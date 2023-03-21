@@ -16,6 +16,11 @@ const pageError = ref(null)
 const formError = ref(null)
 const loading = ref(false)
 const showingPassword = ref(false)
+const type = computed(() => showingPassword.value ? "text" : "password")
+
+const togglePassword = () => {
+
+}
 
 const showPassword = computed(() => {
   return showingPassword ? 'eye' : 'eye-slash'
@@ -52,14 +57,18 @@ const signIn = () => {
       password.value = ''
       loading.value = false
     })
-}
+};
 </script>
 <template>
   <div class="w-screen h-screen flex flex-col p-5 items-center">
     <page-info v-if="pageError" :message="pageError" />
     <img src="@/assets/K-KART.png" alt="k-kart" />
     <h1 class="text-2xl font-bold mb-8 text-blue-500">Sign in to your account</h1>
+
+    <!-- form -->
     <form class="flex flex-col items-center w-3/4 gap-4 pb-2" @submit.prevent="signIn">
+
+      <!-- email label -->
       <label
         ><font-awesome-icon icon="envelope" /><input
           type="email"
@@ -69,24 +78,36 @@ const signIn = () => {
           :disabled="loading"
           required
       /></label>
+
+      <!-- password label -->
       <label
         ><font-awesome-icon icon="lock" /><input
-          type="password"
+          :type="type"
           class="grow pl-2"
           placeholder="*****"
           v-model="password"
           :disabled="loading"
           required
         />
-        <font-awesome-icon
-          :icon="showPassword"
+
+        <!-- show pasword icon -->
+        <font-awesome-icon v-if="!showingPassword"
+          icon="eye"
           class="text-slate-700 text-sm z-10"
-          @click="console.log('view')"
+          @click="showingPassword = true"
+        />
+        <font-awesome-icon v-else
+          icon="eye-slash"
+          class="text-slate-700 text-sm z-10"
+          @click="showingPassword = false"
         />
       </label>
 
+      <!-- form error -->
       <form-error v-if="formError" :text="formError" />
 
+
+      <!-- submit nutton -->
       <button
         type="submit"
         class="w-full py-2 px-2 rounded-3xl bg-blue-500 text-white font-bold mt-2"

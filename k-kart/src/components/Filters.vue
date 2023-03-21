@@ -5,7 +5,7 @@
         <font-awesome-icon
           icon="angle-left"
           class="text-xl"
-          @click="router.go(-1)"
+          @click="$emit('closeFilters')"
         />
       </div>
       <div
@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-import CategoriesFilters from "@/components/filters/CategoriesFilters.vue";
+// import CategoriesFilters from "@/components/filters/CategoriesFilters.vue";
 import PriceFilters from "@/components/filters/PriceFilters.vue";
 import StoresFilters from "@/components/filters/StoresFilters.vue";
 import LocationFilters from "@/components/filters/LocationFilters.vue";

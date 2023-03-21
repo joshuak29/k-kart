@@ -1,18 +1,14 @@
 <template>
   <nav class="fixed top-0 left-0 w-full h-16 bg-white p-2 px-4 shadow-md">
     <ul class="h-full w-full flex flex-row items-center justify-between">
-      <li class="text-start">
-        <router-link to="/filters"
-          ><font-awesome-icon icon="filter" class="text-gray-800 text-lg"
-        /></router-link>
+      <li class="text-start"><font-awesome-icon icon="filter" class="text-gray-800 text-lg" @click="$emit('openFilters')"
+        />
       </li>
       <li class="text-center">
         <router-link to="/">K-Kart</router-link>
       </li>
-      <li class="text-end">
-        <router-link to="/menu" id="bars" class="relative"
-          ><font-awesome-icon icon="bars" :style="{'--cart': 4}"
-        /></router-link>
+      <li class="text-end"><font-awesome-icon icon="bars" id="bars" :style="{'--cart': 4}" @click="$emit('openMenu')"
+        />
       </li>
     </ul>
   </nav>

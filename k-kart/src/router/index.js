@@ -6,101 +6,112 @@ import HomeView from '@/views/HomeView.vue'
 import ProductsView from '@/views/ProductsView.vue'
 import ProductDetailsView from '@/views/ProductDetailsView.vue'
 import CartView from '@/views/CartView.vue'
-import MenuView from '@/views/MenuView.vue'
 import FavouritesView from '@/views/FavouritesView.vue'
 import AuthenticateView from '@/views/authentication/AuthenticationView.vue'
 import LoginView from '@/views/authentication/LoginView.vue'
-import FiltersView from '@/views/FiltersView.vue'
+import CheckoutView from "@/views/CheckoutView.vue"
 import SignupView from '@/views/authentication/SignupView.vue'
-
+import SetLocationView from '@/views/SetLocationView.vue'
+import OrdersView from '@/views/OrdersView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'user',
-      component: AuthenticateView
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: HomeView,
+      component: AuthenticateView,
       meta: {
-        requiresAuth: true
+        noAuth: true
       }
     },
+    // {
+    //   path: '/home',
+    //   name: 'home',
+    //   component: HomeView
+    // },
     {
       path: '/products',
       name: 'products',
-      component: ProductsView,
-      meta: {
-        requiresAuth: true
-      }
+      component: ProductsView
     },
     {
       path: '/products/:id',
       name: 'product',
-      component: ProductDetailsView,
-      meta: {
-        requiresAuth: true
-      }
+      component: ProductDetailsView
     },
     {
       path: '/cart',
       name: 'cart',
-      component: CartView,
-      meta: {
-        requiresAuth: true
-      }
+      component: CartView
     },
     {
-      path: '/menu',
-      name: 'menu',
-      component: MenuView,
-      meta: {
-        requiresAuth: true
-      }
+      path: '/orders',
+      name: 'orders',
+      component: OrdersView
     },
     // {
-    //   path: '/filters',
-    //   name: 'filters',
-    //   component: FiltersView,
-    //   meta: {
-    //     requiresAuth: true
-    //   }
+    //   path: '/favourites',
+    //   name: 'favourites',
+    //   component: FavouritesView
     // },
-    {
-      path: '/favourites',
-      name: 'favourites',
-      component: FavouritesView,
-      meta: {
-        requiresAuth: true
-      }
-    },
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      meta: {
+        noAuth: true
+      }
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignupView
+      component: SignupView,
+      meta: {
+        noAuth: true
+      }
+    },
+    {
+      path: '/set-location',
+      name: 'location',
+      component: SetLocationView,
+      beforeEnter(to, from, next) {
+        if(from.name !== 'cart'){
+          next('/cart')
+          return
+        }
+         next()
+      }
+    },
+    {
+      path: '/checkout',
+      name: 'checkout',
+      component: CheckoutView,
+      beforeEnter(to, from, next) {
+        if(from.name !== 'location'){
+          next('/cart')
+          return
+        }
+         next()
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
-  if (to.meta.requiresAuth && !auth.currentUser) {
-    next('/')
+
+  if (to.meta.noAuth && auth.currentUser) {
+    next(from)
+    console.log('changed')
     return
   }
-  if (!to.meta.requiresAuth && auth.currentUser) {
-    next('/home')
+  if (!to.meta.noAuth && !auth.currentUser) {
+    next(from)
+    return
+  } else {
+    next()
     return
   }
-  next()
-})
+ })
 
 export default router

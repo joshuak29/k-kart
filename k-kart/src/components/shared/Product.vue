@@ -1,23 +1,17 @@
 <template>
   <div class="product w-5/12 h-fit flex flex-col flex-nowrap mb-7 relative">
-    <div class="pic overflow-hidden hover:shadow-lg">
-      <font-awesome-icon
-        icon="heart"
-        class="absolute right-2 top-2 z-10 text-2xl"
-        :class="{ 'text-red-500': product.liked }"
-        @click="like = !like"
-      />
+    <div class="pic overflow-hidden hover:shadow-lg h-32">
       <router-link
-        to="/products/1"
-        class="pic overflow-hidden w-full h-full hover:shadow-lg"
-        ><img :src="product.img" alt="product border-black" class="w-full"
+        :to="link"
+        class="overflow-hidden w-full h-full hover:shadow-lg"
+        ><img :src="product.img" alt="product" class="w-full"
       /></router-link>
     </div>
     <div
       class="details text-base flex flex-col overflow-hidden py-1 justify-end"
     >
       <div class="flex flex-row justify-between">
-        <router-link to="/products/1" class="w-2/3"
+        <router-link :to="link" class="w-2/3"
           ><div class="font-bold text-gray-900 overflow-hidden hover:underline">
             {{ product.name }}
           </div></router-link
@@ -32,7 +26,7 @@
       <p class="mb-2">
         <rating :rating="product.rating" />
       </p>
-      <div><global-button /></div>
+      <div><global-button @click="userStore.addToCart(product.id)" /></div>
     </div>
   </div>
 </template>
@@ -40,16 +34,24 @@
 <script setup>
 import GlobalButton from "@/components/shared/GlobalButton.vue";
 import Rating from "@/components/shared/Rating.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useUserStore } from "@/stores/user";
 
-const like = ref(false);
-
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true,
   },
 });
+
+const userStore = useUserStore();
+
+const like = ref(false);
+const link = computed(() => {
+  return `/products/${props.product.id}`
+});
+
+
 </script>
 
 <style scoped>

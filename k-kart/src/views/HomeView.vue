@@ -1,6 +1,6 @@
 <template>
   <section
-    class="page home-view overflow-x-hidden overflow-y-scroll f-screen w-full pb-10 mt-16"
+    class="page home-view overflow-x-hidden overflow-y-scroll f-screen w-full pb-10"
   >
     <the-hero />
     <div class="px-2">

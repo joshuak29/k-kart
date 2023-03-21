@@ -29,7 +29,12 @@ import {
   faPhone,
   faLock,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faLocationArrow,
+  faLocationDot,
+  faCircleCheck,
+  faCircleXmark,
+  faTruckFast
 } from '@fortawesome/free-solid-svg-icons'
 
 import App from './App.vue'
@@ -65,5 +70,10 @@ library.add(faPhone)
 library.add(faLock)
 library.add(faEyeSlash)
 library.add(faEye)
+library.add(faLocationArrow)
+library.add(faLocationDot)
+library.add(faCircleCheck)
+library.add(faCircleXmark)
+library.add(faTruckFast)
 
 createApp(App).use(router).use(pinia).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

@@ -8,21 +8,88 @@ import { db } from "@/firebaseConfig"
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    cart: [1, 3, 4, 5, 7, 9],
+    cart: [],
     user: null,
     telNumber: null,
     otp: null
   }),
+  getters: {
+      cartTotal() {
+        this.cart.forEach(async (item) => {
+          const docRef = doc(db, 'products', item.id)
+
+          try {
+            let results = await getDoc(docRef)
+
+           console.log(results.data().price * item.qty)
+
+          }
+          catch(error) {
+            console.log(error)
+          }
+          
+          return 'true'
+        })
+      }
+  },
   actions: {
-    async fetchCart() {
-      let results = await axios.get('http://localhost:3000/cart')
-      // this.cart = results.data;
+    getCart() {
+      this.cart = JSON.parse(localStorage.getItem('cart')) || []
     },
-    addNumber(nmbr) {
-      this.telNumber = nmbr
+    addToCart(id) {
+      const item = {}
+      item['id'] = id
+      item['qty'] = 1
+
+      if(this.cart.filter((item) => item.id === id).length == 0) {
+        this.cart.push(item)
+
+        localStorage.setItem('cart', JSON.stringify(this.cart))
+      }
     },
-    addOTP(otp) {
-      this.otp = otp
+    removeFromCart(item){
+
+      const product = this.cart.filter((cartItem) => cartItem.id === item.id)
+
+      if(product.length > 0) {
+        for (var i = 0; i < this.cart.length; i++) {
+          if(JSON.stringify(this.cart[i]) == JSON.stringify(item)) {
+            this.cart.splice(i, 1)
+          }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(this.cart))
+      }
+    },
+    clearCart() {
+      this.cart = []
+      localStorage.removeItem('cart')
+    },
+    addQty(item) {
+      const product = this.cart.filter((cartItem) => cartItem.id === item.id)
+
+      if(product.length > 0) {
+        for (var i = 0; i < this.cart.length; i++) {
+          if(JSON.stringify(this.cart[i]) == JSON.stringify(item)) {
+            this.cart[i].qty += 1
+          }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(this.cart))
+      }
+    },
+    reduceQty(item) {
+      const product = this.cart.filter((cartItem) => cartItem.id === item.id)
+
+      if(product.length > 0) {
+        for (var i = 0; i < this.cart.length; i++) {
+          if(JSON.stringify(this.cart[i]) == JSON.stringify(item)) {
+            this.cart[i].qty -= 1
+          }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(this.cart))
+      }
     },
     async addUser(user) {
       const userSnapshot = await getDoc(doc(db, 'users', user.uid))
@@ -61,7 +128,7 @@ export const useUserStore = defineStore('user', {
             router.isReady() &&
             (routes.includes(routePath))
           ) {
-            router.push('/home')
+            router.push('/products')
           }
         }
       })

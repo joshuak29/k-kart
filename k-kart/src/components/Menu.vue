@@ -19,7 +19,7 @@
         <font-awesome-icon
           icon="xmark"
           class="text-xl text-gray-500 translate-y-1"
-          @click="router.go(-1)"
+          @click="$emit('closeMenu')"
         />
       </div>
     </div>
@@ -40,13 +40,22 @@
           /><span>My Cart</span>
         </div></router-link
       >
-      <router-link to="/favourites"
+
+      <router-link to="/orders"
+        ><div class="menu-item">
+          <font-awesome-icon
+            class="menu-icon -translate-x-2"
+            icon="truck-fast"
+          /><span>My Orders</span>
+        </div></router-link
+      >
+      <!-- <router-link to="/favourites"
         ><div class="menu-item">
           <font-awesome-icon class="menu-icon" icon="heart" /><span
             >Favourites</span
           >
         </div></router-link
-      >
+      > -->
       <div class="menu-item">
         <font-awesome-icon class="menu-icon" icon="gear" /><span>Settings</span>
       </div>
@@ -62,6 +71,7 @@
       
     </div>
   </section>
+
 </template>
   
 <script setup>
@@ -80,7 +90,7 @@ const signOutUser = async () => {
   await signOut(auth)
 
   router.push("/")
-}
+};
 </script>
   
   <style scoped>
