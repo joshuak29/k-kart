@@ -8,33 +8,29 @@ import { db } from "@/firebaseConfig"
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    cart: [],
     user: null,
-    telNumber: null,
-    otp: null
+
+    //cart
+    cart: [],
+    cartTotal: 0
   }),
   getters: {
-      cartTotal() {
-        this.cart.forEach(async (item) => {
-          const docRef = doc(db, 'products', item.id)
-
-          try {
-            let results = await getDoc(docRef)
-
-           console.log(results.data().price * item.qty)
-
-          }
-          catch(error) {
-            console.log(error)
-          }
-          
-          return 'true'
-        })
-      }
   },
   actions: {
+    //cart
+    getCartTotal() {
+      this.cartTotal = 0
+      this.cart.forEach(async (item) => {
+        let results = await getDoc(doc(db, 'products', item.id))
+
+        if(results) {
+          this.cartTotal += results.data().price * item.qty
+        }
+      })
+    },
     getCart() {
       this.cart = JSON.parse(localStorage.getItem('cart')) || []
+      this.getCartTotal()
     },
     addToCart(id) {
       const item = {}
@@ -46,6 +42,7 @@ export const useUserStore = defineStore('user', {
 
         localStorage.setItem('cart', JSON.stringify(this.cart))
       }
+      this.getCartTotal()
     },
     removeFromCart(item){
 
@@ -60,10 +57,13 @@ export const useUserStore = defineStore('user', {
 
         localStorage.setItem('cart', JSON.stringify(this.cart))
       }
+      this.getCartTotal()
     },
     clearCart() {
       this.cart = []
       localStorage.removeItem('cart')
+
+      this.getCartTotal()
     },
     addQty(item) {
       const product = this.cart.filter((cartItem) => cartItem.id === item.id)
@@ -77,6 +77,7 @@ export const useUserStore = defineStore('user', {
 
         localStorage.setItem('cart', JSON.stringify(this.cart))
       }
+      this.getCartTotal()
     },
     reduceQty(item) {
       const product = this.cart.filter((cartItem) => cartItem.id === item.id)
@@ -90,7 +91,10 @@ export const useUserStore = defineStore('user', {
 
         localStorage.setItem('cart', JSON.stringify(this.cart))
       }
+      this.getCartTotal()
     },
+
+    //user
     async addUser(user) {
       const userSnapshot = await getDoc(doc(db, 'users', user.uid))
       if(userSnapshot) {

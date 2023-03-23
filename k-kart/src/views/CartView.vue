@@ -45,7 +45,7 @@
         <div class="flex flex-row justify-between my-5">
           <span class="text-gray-700">Total</span>
           <span class="w-fullcheckout text-2xl font-bold text-sky-500"
-            > {{ subTotal }} frw</span
+            > {{ userStore.cartTotal }} frw</span
           >
         </div>
       </div>
@@ -72,17 +72,6 @@ import CheckoutButton from "@/components/shared/CheckoutButton.vue";
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 const router = useRouter();
-
-const subTotal = computed(() => {
-  let cartItems = userStore.cart
-
-  let subTotal = 0
-  cartItems.forEach((item) => {
-    subTotal = subTotal + (item.qty * 10000)
-  })
-
-  return subTotal
-})
 
 </script>
 

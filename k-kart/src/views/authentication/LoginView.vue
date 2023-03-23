@@ -33,7 +33,7 @@ const signIn = () => {
   loading.value = true
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(() => {
-      router.push('/home')
+      router.push('/products')
       loading.value = false
     })
     .catch((error) => {

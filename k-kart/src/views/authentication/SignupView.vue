@@ -86,18 +86,9 @@ const names = ref('')
 const signUp = async () => {
   loading.value = true
   pageError.value = null
-  // const telQuery = query(collection(db, 'users'), where('tel', '==', telNmbr.value))
-  // const docSnap = await getDocs(telQuery)
-  // const docs = []
 
-  // docSnap.forEach((doc) => docs.push(doc.data()))
-
-  // if (docs.length < 1) {
-  //   telError.value = "Another"
-  // } else {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((user) => {
-      console.log('Created user with uid: ', user.user.uid)
 
       let docRef = doc(db, 'users', user.user.uid)
       setDoc(docRef, {
@@ -106,11 +97,7 @@ const signUp = async () => {
         email: email.value
       })
         .then(() => {
-          console.log('Created')
-          router.push('/home')
-        })
-        .catch((error) => {
-          console.log(error)
+          router.push('/products')
         })
       loading.value = false
     })
