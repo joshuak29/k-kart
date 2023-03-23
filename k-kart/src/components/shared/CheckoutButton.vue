@@ -29,6 +29,6 @@ defineProps({
   transform: translateY(0.1rem);
 }
 .checkout-btn {
-  @apply bg-blue-500 py-4 px-4 rounded-2xl text-white flex flex-row justify-between items-center mb-2;
+  @apply bg-blue-500 py-4 px-4 rounded-2xl text-white flex flex-row justify-between items-center;
 }
 </style>

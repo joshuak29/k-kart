@@ -41,18 +41,18 @@
 
       </transition-group>
 
-      <!-- total -->
-        <div class="flex flex-row justify-between my-5">
-          <span class="text-gray-700">Total</span>
-          <span class="w-fullcheckout text-2xl font-bold text-sky-500"
-            > {{ userStore.cartTotal }} frw</span
-          >
-        </div>
       </div>
 
       <!-- next button -->
-      <checkout-button @click="router.push('/set-location')" class="w-full" />
+      <div class="flex flex-row w-full gap-5 border border-slate-400 rounded-2xl p-1 bg-sky-50 shadow-inner mb-3">
+        <div class="flex flex-col items-left justify-center grow px-4">
+          <loading v-if="userStore.cartTotalLoading" />
+          <span class="text-md opacity-10" v-if="!userStore.cartTotalLoading">Total</span>
+          <span class="text-xl font-bold text-sky-500" v-if="!userStore.cartTotalLoading">{{ userStore.cartTotal }} Frw</span>
+        </div>
+        <checkout-button @click="router.push('/set-location')" class="grow" />
       </div>
+    </div>
         
   </section>
 </template>
@@ -68,6 +68,7 @@ import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
 
 import CartItem from "@/components/CartItem.vue";
 import CheckoutButton from "@/components/shared/CheckoutButton.vue";
+import Loading from '@/components/shared/Loading.vue'
 
 const productsStore = useProductsStore();
 const userStore = useUserStore();
@@ -84,7 +85,7 @@ const router = useRouter();
   @apply bg-white h-screen w-screen fixed left-0 top-0 flex flex-col justify-center items-center pt-4;
 }
 .checkout-btn {
-  @apply bg-blue-500 py-4 px-4 rounded-2xl text-white flex flex-row justify-between items-center mb-2;
+  @apply bg-blue-500 py-4 px-4 rounded-2xl text-white flex flex-row justify-between items-center;
 }
 .cart-items-move,
 .cart-items-leave-active {

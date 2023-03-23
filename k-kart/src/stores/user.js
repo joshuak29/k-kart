@@ -12,13 +12,15 @@ export const useUserStore = defineStore('user', {
 
     //cart
     cart: [],
-    cartTotal: 0
+    cartTotal: 0,
+    cartTotalLoading: false
   }),
   getters: {
   },
   actions: {
     //cart
     getCartTotal() {
+      this.cartTotalLoading = true
       this.cartTotal = 0
       this.cart.forEach(async (item) => {
         let results = await getDoc(doc(db, 'products', item.id))
@@ -27,6 +29,7 @@ export const useUserStore = defineStore('user', {
           this.cartTotal += results.data().price * item.qty
         }
       })
+      this.cartTotalLoading = false
     },
     getCart() {
       this.cart = JSON.parse(localStorage.getItem('cart')) || []
