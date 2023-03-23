@@ -117,6 +117,8 @@ const initMap = () => {
     searchResults.value = null
 
     currentLocation.value = currentLocationMarker.value.getLngLat()
+
+    localStorage.setItem('userLocation', JSON.stringify(currentLocation.value))
   }
 
 
@@ -148,7 +150,7 @@ const locate = () => {
   // map.locate({ setView: true, maxZoom: 20, zoom: 17 })
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((res) => {
-      plotLocation([res.coords.latitude, res.coords.longitude])
+      plotLocation([res.coords.longitude, res.coords.latitude])
     })
   } else {
   console.log("Geolocation is not supported by this browser.");

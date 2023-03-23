@@ -3,7 +3,7 @@ import axios from 'axios'
 import { auth } from '@/firebaseConfig'
 import { signInWithPhoneNumber } from 'firebase/auth'
 import router from '@/router'
-import { getDoc, doc } from 'firebase/firestore'
+import { getDoc, doc, collection, getDocs } from 'firebase/firestore'
 import { db } from "@/firebaseConfig"
 
 export const useUserStore = defineStore('user', {
@@ -13,11 +13,58 @@ export const useUserStore = defineStore('user', {
     //cart
     cart: [],
     cartTotal: 0,
-    cartTotalLoading: false
+    cartTotalLoading: false,
+
+    //orders
+    orders: []
   }),
   getters: {
   },
   actions: {
+    //user
+    async addUser(user) {
+      const userSnapshot = await getDoc(doc(db, 'users', user.uid))
+      if(userSnapshot) {
+        this.user = userSnapshot.data()
+      }
+      else {
+        console.log("Error getting user details");
+      }
+      
+    },
+    clearUser() {
+      this.user = null
+    },
+    fetchUser() {
+      auth.onAuthStateChanged(async (user) => {
+        if (user === null) {
+          this.clearUser()
+          const routePath = router.currentRoute.value.path
+          const routes = ['/', '/login', '/signup']
+
+          if (
+            router.isReady() &&
+            (!routes.includes(routePath))
+          ) {
+            router.push('/')
+          }
+
+        } else {
+          this.addUser(user)
+
+          const routePath = router.currentRoute.value.path
+          const routes = ['/', '/login', '/signup']
+
+          if (
+            router.isReady() &&
+            (routes.includes(routePath))
+          ) {
+            router.push('/products')
+          }
+        }
+      })
+    },
+
     //cart
     getCartTotal() {
       this.cartTotalLoading = true
@@ -97,48 +144,20 @@ export const useUserStore = defineStore('user', {
       this.getCartTotal()
     },
 
-    //user
-    async addUser(user) {
-      const userSnapshot = await getDoc(doc(db, 'users', user.uid))
-      if(userSnapshot) {
-        this.user = userSnapshot.data()
+    //orders
+    async fetchOrders() {
+      if(!auth.currentUser) {
+        return
       }
-      else {
-        console.log("Error getting user details");
+      const ordersRef = collection(db, 'users', auth.currentUser.uid, 'orders')
+      let orders = await getDocs(ordersRef)
+
+      orders.forEach((order) => {
+        let details = {...order.data()}
+        details['id'] = order.id
+        this.orders.push(details)
       }
-      
-    },
-    clearUser() {
-      this.user = null
-    },
-    fetchUser() {
-      auth.onAuthStateChanged(async (user) => {
-        if (user === null) {
-          this.clearUser()
-          const routePath = router.currentRoute.value.path
-          const routes = ['/', '/login', '/signup']
-
-          if (
-            router.isReady() &&
-            (!routes.includes(routePath))
-          ) {
-            router.push('/')
-          }
-
-        } else {
-          this.addUser(user)
-
-          const routePath = router.currentRoute.value.path
-          const routes = ['/', '/login', '/signup']
-
-          if (
-            router.isReady() &&
-            (routes.includes(routePath))
-          ) {
-            router.push('/products')
-          }
-        }
-      })
+      )
     }
   }
 })

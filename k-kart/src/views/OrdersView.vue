@@ -8,16 +8,26 @@
     </div>
     
 
-    <div class="flex flex-col w-full gap-6">
-      <order v-for="i in 10" :key="i" />
+    <div class="flex flex-col w-full gap-6" v-if="userStore.orders.length > 0">
+      <order v-for="i in userStore.orders" :key="i.id" :order="i" />
+    </div>
+    <div class="flex items-center justify-center">
+      <h1 class="text-xl font bold">You haven't ordered anything yet.</h1>
     </div>
     
   </section>
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { onMounted, onBeforeMount } from 'vue'
 
 import Order from '@/components/orders/Order.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
+
+onBeforeMount(() => {
+  userStore.fetchOrders()
+})
 </script>

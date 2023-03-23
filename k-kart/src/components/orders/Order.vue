@@ -20,23 +20,31 @@
 
     <div class="flex flex-col mt-7">
       <div class="flex flex-row py-2 px-5 items-center gap-0 w-full justify-center">
-        <span class="point bg-blue-500 shadow-md shadow-blue-500 placed"></span>
-        <span class="line bg-blue-500 shadow-md shadow-blue-500"></span>
-        <span class="point bg-blue-500 shadow-md shadow-blue-500 approved"></span>
-        <span class="line bg-gray-300"></span>
-        <span class="point bg-gray-300 delivered"></span>
+        <span class="point placed done"></span>
+        <span class="line"></span>
+        <span class="point approved"></span>
+        <span class="line"></span>
+        <span class="point delivered"></span>
       </div>
     </div>
   </div>
     
 </template>
-<script setup></script>
+<script setup>
+
+defineProps({
+  order: {
+    type: Object,
+    required: true
+  }
+});
+</script>
 <style>
   .point {
-    @apply w-4 h-4 rounded-3xl relative
+    @apply w-4 h-4 rounded-3xl relative bg-gray-300
   }
   .line {
-    @apply h-1 w-24
+    @apply h-1 w-24 bg-gray-300
   }
   .placed::after {
     content: "Placed";
@@ -49,5 +57,8 @@
   .delivered::after {
     content: "Delivered";
     @apply text-gray-500 text-xs absolute -top-5  -left-1/2
+  }
+  .done {
+    @apply shadow-md shadow-blue-500 bg-blue-500
   }
 </style>

@@ -13,9 +13,11 @@ import CheckoutView from "@/views/CheckoutView.vue"
 import SignupView from '@/views/authentication/SignupView.vue'
 import SetLocationView from '@/views/SetLocationView.vue'
 import OrdersView from '@/views/OrdersView.vue'
+import CheckoutDoneView from '@/views/CheckoutDoneView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+  //authentication
     {
       path: '/',
       name: 'user',
@@ -24,6 +26,23 @@ const router = createRouter({
         noAuth: true
       }
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      meta: {
+        noAuth: true
+      }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: SignupView,
+      meta: {
+        noAuth: true
+      }
+    },
+
     // {
     //   path: '/home',
     //   name: 'home',
@@ -55,22 +74,6 @@ const router = createRouter({
     //   component: FavouritesView
     // },
     {
-      path: '/login',
-      name: 'login',
-      component: LoginView,
-      meta: {
-        noAuth: true
-      }
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: SignupView,
-      meta: {
-        noAuth: true
-      }
-    },
-    {
       path: '/set-location',
       name: 'location',
       component: SetLocationView,
@@ -82,12 +85,26 @@ const router = createRouter({
          next()
       }
     },
+
+    //checkout
     {
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView,
       beforeEnter(to, from, next) {
         if(from.name !== 'location'){
+          next('/cart')
+          return
+        }
+         next()
+      }
+    },
+    {
+      path: '/checkout-done',
+      name: 'checkout-done',
+      component: CheckoutDoneView,
+      beforeEnter(to, from, next) {
+        if(from.name !== 'checkout'){
           next('/cart')
           return
         }
@@ -102,7 +119,6 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.noAuth && auth.currentUser) {
     next(from)
-    console.log('changed')
     return
   }
   if (!to.meta.noAuth && !auth.currentUser) {

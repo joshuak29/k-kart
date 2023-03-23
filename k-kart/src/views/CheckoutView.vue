@@ -28,16 +28,22 @@
 			</div>
 
 			<!-- tel form -->
-			<label class="w-full text-start" for="tel">Enter Your MoMo</label>
-			<form class="flex flex-row gap-0 w-full" @submit.prevent="placeOrder">
-				<span class="h-8"><img src="@/assets/momo-logo.jpg" class="h-full w-full"></span>
-				<input type="tel" class="bg-gray-300 rounded-r-lg rounded-l-none text-600 font-bold px-2 grow" id="tel" placeholder="07XXXXXXXX" v-model="tel">
+			<!-- <label class="w-full text-start" for="tel">Enter Your MoMo</label> -->
+			<form class="flex flex-col gap-1 w-full" @submit.prevent="placeOrder">
+				<label class="w-full text-start text-sm text-gray-500" for="name">Name Your Order</label>
+				<input type="text" class="bg-gray-300 rounded-lg text-gray-700 font-bold px-2 grow mb-3 h-10" id="name" placeholder="eg: Sunday Groceries" v-model="orderName" required>
+				<label class="w-full text-start text-sm text-gray-500" for="tel">Enter Your MoMo</label>
+				<div class="flex flexrow gap-0 w-full">
+					<span class="h-10"><img src="@/assets/momo-logo.jpg" class="h-full w-full"></span>
+					<input type="tel" class="bg-gray-300 rounded-r-lg rounded-l-none text-gray-700 font-bold px-2 grow" id="tel" placeholder="07XXXXXXXX" v-model="tel" required>
+				</div>
+
+				<!-- place order button -->
+				<CheckoutButton class="w-4/5 mx-auto my-5 rounded-2xl" text="Place Order" icon="credit-card" @click="placeOrder" type="submit" />
+				
 			</form>
 			
 		</div>
-
-		<!-- place order button -->
-		<CheckoutButton class="w-4/5 mx-auto my-5 rounded-2xl" text="Place Order" icon="credit-card" @click="placeOrder" />
 	</div>
 	
 </template>
@@ -61,6 +67,7 @@ const total = computed(() => {
 	return delivery.value + userStore.cartTotal
 })
 
+const orderName = ref(null)
 const tel = ref(null)
 const orderPlaced = ref(true)
 const placeOrder = async () => {
@@ -74,8 +81,11 @@ const placeOrder = async () => {
 	try {
 		let results = await addDoc(colRef, {
 			cart,
-			'tel': '+25' + tel.value,
-			'location': JSON.parse(localStorage.getItem('userLocation'))
+			'Sub Total': userStore.cartTotal,
+			total: total.value,
+			tel: '+25' + tel.value,
+			location: JSON.parse(localStorage.getItem('userLocation')),
+			name: orderName.value
 		})
 	} 
 	catch(err) {
@@ -84,6 +94,7 @@ const placeOrder = async () => {
 
 	userStore.cart = []
 	localStorage.removeItem('cart')
+	localStorage.removeItem('userLocation')
 	router.push({name: 'checkout-done'})
 	
 }
