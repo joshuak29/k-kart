@@ -39,7 +39,7 @@
 				</div>
 
 				<!-- place order button -->
-				<CheckoutButton class="w-4/5 mx-auto my-5 rounded-2xl" text="Place Order" icon="credit-card" @click="placeOrder" type="submit" />
+				<CheckoutButton class="w-4/5 mx-auto my-5 rounded-2xl" text="Place Order" icon="credit-card" type="submit" />
 				
 			</form>
 			

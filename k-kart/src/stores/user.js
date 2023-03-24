@@ -146,6 +146,7 @@ export const useUserStore = defineStore('user', {
 
     //orders
     async fetchOrders() {
+      this.orders = []
       if(!auth.currentUser) {
         return
       }

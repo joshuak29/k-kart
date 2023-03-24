@@ -1,18 +1,26 @@
 <template>
 	<div class="shadow-md border border-blue-100 rounded-2xl flex flex-col py-2 px-1 bg-blue-50 gap-3">
     <div class="flex items-center justify-between px-3 pt-2">
-      <span class="text-xl font-semibold">Grocery</span> 
+
+      <!-- order name -->
+      <span class="text-xl font-semibold">{{ order.name}}</span> 
+
+      <!-- order time -->
       <span class="text-sm text-gray-500">26-04-2021</span>
     </div>
 
     <div class="flex items-center justify-between px-3 pt-2">
+
+      <!-- total price -->
       <div class="border-r border-gray-400 grow font-bold text-sm text-blue-500">
-      	250,000 Frw
+      	{{ order.total }} Frw
       </div>
+
+      <!-- status indicator -->
       <div class="grow text-end">
        <span class="text-xs text-gray-400 mr-1">Status </span> 
-       <!-- <font-awesome-icon icon="circle-check" class="text-gray-300" /> -->
-       <font-awesome-icon icon="circle-check" class="text-blue-600" />
+       <font-awesome-icon icon="circle-check" class="text-gray-300" />
+       <!-- <font-awesome-icon icon="circle-check" class="text-blue-600" /> -->
        <!-- <font-awesome-icon icon="circle-xmark" class="text-red-600" /> -->
 
       </div>
