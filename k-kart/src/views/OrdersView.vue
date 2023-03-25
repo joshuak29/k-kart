@@ -13,7 +13,7 @@
     </div>
 
     <!-- if orders list is empty -->
-    <div class="flex items-center justify-center">
+    <div class="flex items-center justify-center" v-else>
       <h1 class="text-xl font bold">You haven't ordered anything yet.</h1>
     </div>
     
