@@ -1,41 +1,7 @@
 # k-kart
 
-This template should help get you started developing with Vue 3 in Vite.
+A minimal strictly mobile web app online shop. 
 
-## Recommended IDE Setup
+This prototype includes a simple and intuitive interface designed specifically for mobile devices, with features such as browsing products, adding items to a cart, entering your location and checking out securely. 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+The app is optimized for smooth performance on a variety of mobile devices. This prototype is an excellent example of how a mobile web app can provide a seamless shopping experience for customers on the go.
